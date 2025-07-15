@@ -1,6 +1,6 @@
-import Returns from "../../models/returns";
+import { Returns } from '../../models';
 
-export const serviceGetAllReturns = async () => {
-    const allReturns = await Returns.findAll();
-    return allReturns;
+export const getAllReturns = async (): Promise<Returns[]> => {
+  const returns = await Returns.findAll();
+  return returns;
 };

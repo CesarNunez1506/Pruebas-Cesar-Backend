@@ -1,11 +1,7 @@
-import { Request, Response } from "express";
-import { serviceGetAllReturns } from "../../services/Returns";
+import { Request, Response } from 'express';
+import { getAllReturns } from '../../services/Returns';
 
-export const getAllReturns = async (req: Request, res: Response) => {
-    try {
-        const allReturns = await serviceGetAllReturns();
-        res.status(200).json(allReturns);
-    } catch (error: any) {
-        res.status(500).json({ error: "Internal server error" });
-    }
+export const getAllReturnsController = async (req: Request, res: Response) => {
+  const returns = await getAllReturns();
+  res.json(returns);
 };

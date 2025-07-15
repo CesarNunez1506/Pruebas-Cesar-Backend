@@ -1,12 +1,17 @@
-import { Request, Response } from "express";
-import { serviceUpdateReturn } from "../../services/Returns";
+import { Request, Response } from 'express';
+import { returnsSchema } from '../../schemas';
+import { updateReturn } from '../../services/Returns';
 
-export const updateReturn = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const updatedReturn = await serviceUpdateReturn(parseInt(id), req.body);
-        res.status(200).json(updatedReturn);
-    } catch (error: any) {
-        res.status(400).json({ error: error.message });
-    }
+export const updateReturnController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { body } = req;
+  const { success } = returnsSchema.partial().safeParse(body);
+  if (!success) {
+    return res.status(400).json({ message: 'Invalid data' });
+  }
+  const [updatedRows, updatedReturns] = await updateReturn(Number(id), body);
+  if (updatedRows === 0) {
+    return res.status(404).json({ message: 'Return not found' });
+  }
+  res.json(updatedReturns[0]);
 };

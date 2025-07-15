@@ -1,18 +1,18 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
-    createReturn,
-    deleteReturn,
-    getAllReturns,
-    getReturnById,
-    updateReturn,
-} from "../controllers/Returns";
+  createReturnController,
+  deleteReturnController,
+  getAllReturnsController,
+  getReturnByIdController,
+  updateReturnController,
+} from '../controllers/Returns';
 
 const router = Router();
 
-router.get("/", getAllReturns);
-router.get("/:id", getReturnById);
-router.post("/", createReturn);
-router.put("/:id", updateReturn);
-router.delete("/:id", deleteReturn);
+router.get('/', getAllReturnsController);
+router.get('/:id', getReturnByIdController);
+router.post('/', createReturnController);
+router.put('/:id', updateReturnController);
+router.delete('/:id', deleteReturnController);
 
 export default router;

@@ -1,12 +1,9 @@
-import Returns from "../../models/returns";
-import { IReturn } from "../../types/ventas/returns";
-import { returnsSchema } from "../../schemas/ventas/returnsSchema";
+import { Returns } from '../../models';
+import { ReturnsCreationAttributes } from '../../types';
 
-export const serviceCreateReturn = async (data: IReturn) => {
-    const validation = returnsSchema.safeParse(data);
-    if (!validation.success) {
-        throw new Error(validation.error.message);
-    }
-    const newReturn = await Returns.create(validation.data);
-    return newReturn;
+export const createReturn = async (
+  data: ReturnsCreationAttributes
+): Promise<Returns> => {
+  const newReturn = await Returns.create(data);
+  return newReturn;
 };

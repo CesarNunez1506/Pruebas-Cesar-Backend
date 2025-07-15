@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
-import { serviceGetReturnById } from "../../services/Returns";
+import { Request, Response } from 'express';
+import { getReturnById } from '../../services/Returns';
 
-export const getReturnById = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const returnById = await serviceGetReturnById(parseInt(id));
-        res.status(200).json(returnById);
-    } catch (error: any) {
-        res.status(400).json({ error: error.message });
-    }
+export const getReturnByIdController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const returns = await getReturnById(Number(id));
+  if (!returns) {
+    return res.status(404).json({ message: 'Return not found' });
+  }
+  res.json(returns);
 };

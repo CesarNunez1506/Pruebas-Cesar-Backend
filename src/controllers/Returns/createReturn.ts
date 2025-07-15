@@ -1,11 +1,13 @@
-import { Request, Response } from "express";
-import { serviceCreateReturn } from "../../services/Returns";
+import { Request, Response } from 'express';
+import { returnsSchema } from '../../schemas';
+import { createReturn } from '../../services/Returns';
 
-export const createReturn = async (req: Request, res: Response) => {
-    try {
-        const newReturn = await serviceCreateReturn(req.body);
-        res.status(201).json(newReturn);
-    } catch (error: any) {
-        res.status(400).json({ error: error.message });
-    }
+export const createReturnController = async (req: Request, res: Response) => {
+  const { body } = req;
+  const { success } = returnsSchema.safeParse(body);
+  if (!success) {
+    return res.status(400).json({ message: 'Invalid data' });
+  }
+  const newReturn = await createReturn(body);
+  res.status(201).json(newReturn);
 };
