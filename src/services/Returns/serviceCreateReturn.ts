@@ -1,9 +1,12 @@
 import Returns from "../../models/returns";
-import { http } from "../../errors/http";
 import { IReturn } from "../../types/ventas/returns";
+import { returnsSchema } from "../../schemas/ventas/returnsSchema";
 
 export const serviceCreateReturn = async (data: IReturn) => {
-    const newReturn = await Returns.create(data);
-    if (!newReturn) throw new http("No se pudo crear la devolucion", 500);
+    const validation = returnsSchema.safeParse(data);
+    if (!validation.success) {
+        throw new Error(validation.error.message);
+    }
+    const newReturn = await Returns.create(validation.data);
     return newReturn;
 };
